@@ -19,12 +19,16 @@ public class MovieCollection
         scanner = new Scanner(System.in);
         String actorsString = "";
         String actorsStringLowercase = "";
-        for (int i = 0; i < movies.size(); i++){
-            actorsString += movies.get(i).getCast();
-            actorsStringLowercase += movies.get(i).getCast().toLowerCase();
+
+        for (int i = 0; i < movies.size(); i++) {
+            if (actorsString.indexOf(movies.get(i).getCast()) == -1 && actorsStringLowercase.indexOf(movies.get(i).getCast()) == -1) {
+                actorsString += movies.get(i).getCast();
+                actorsStringLowercase += movies.get(i).getCast().toLowerCase();
+            }
         }
-        allActors = actorsString.split("|");
-        allActorsLowercase = actorsStringLowercase.split("|");
+        System.out.println(actorsString);
+        allActors = actorsString.split("\\|");
+        allActorsLowercase = actorsStringLowercase.split("\\|");
 
     }
 
@@ -182,11 +186,12 @@ public class MovieCollection
         searchTerm = searchTerm.toLowerCase();
         ArrayList<String> actorsFound = new ArrayList<String>();
         for (int i = 0; i < allActorsLowercase.length; i++){
-            if (allActorsLowercase[i].indexOf(searchTerm) != -1){
+            if (allActorsLowercase[i].indexOf(searchTerm) != -1 && !actorsFound.contains(allActorsLowercase[i])){
                 actorsFound.add(allActorsLowercase[i]);
             }
         }
-        sortResults(actorsFound);
+        System.out.println(actorsFound);
+
     }
 
     private void searchKeywords()
