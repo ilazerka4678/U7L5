@@ -201,7 +201,7 @@ public class MovieCollection
         ArrayList<Movie> results = new ArrayList<Movie>();
         for (int i = 0; i < movies.size(); i++) {
             String movieCast = movies.get(i).getCast();
-            if (movieCast.contains(actorsFound.get(choice))) {
+            if (movieCast.contains(actorsFound.get(choice-1))) {
                 results.add(movies.get(i));
             }
         }
