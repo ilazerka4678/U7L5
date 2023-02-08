@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.Collections;
 
 public class MovieCollection
 {
@@ -177,21 +178,55 @@ public class MovieCollection
         System.out.println("Box office revenue: " + movie.getRevenue());
     }
 
-    private void searchCast()
-    {
+    private void searchCast() {
         System.out.print("Enter an actor's name: ");
         String searchTerm = scanner.nextLine();
         searchTerm = searchTerm.toLowerCase();
         ArrayList<String> actorsFound = new ArrayList<String>();
-        for (String actor : allActors){
-            if (actor.toLowerCase().contains(searchTerm) && actorsFound.indexOf(actor.toLowerCase()) == -1){
+        for (String actor : allActors) {
+            if (actor.toLowerCase().contains(searchTerm) && actorsFound.indexOf(actor.toLowerCase()) == -1) {
                 actorsFound.add(actor);
             }
         }
+        Collections.sort(actorsFound);
 
+        for (int i = 0; i < actorsFound.size(); i++) {
+            String actor = actorsFound.get(i);
+            int choiceNum = i + 1;
+            System.out.println("" + choiceNum + ". " + actor);
+        }
+        System.out.println("Which actor would you like to learn about?");
+        System.out.print("Enter number: ");
+        int choice = scanner.nextInt();
+        ArrayList<Movie> results = new ArrayList<Movie>();
+        for (int i = 0; i < movies.size(); i++) {
+            String movieCast = movies.get(i).getCast();
+            if (movieCast.contains(actorsFound.get(choice))) {
+                results.add(movies.get(i));
+            }
+        }
+        sortResults(results);
+        for (int i = 0; i < results.size(); i++)
+        {
+            String title = results.get(i).getTitle();
 
-        System.out.println(actorsFound);
+            // this will print index 0 as choice 1 in the results list; better for user!
+            int choiceNum = i + 1;
 
+            System.out.println("" + choiceNum + ". " + title);
+        }
+        System.out.println("Which movie would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int choice2 = scanner.nextInt();
+        scanner.nextLine();
+
+        Movie selectedMovie = results.get(choice2 - 1);
+
+        displayMovieInfo(selectedMovie);
+
+        System.out.println("\n ** Press Enter to Return to Main Menu **");
+        scanner.nextLine();
     }
 
     private void searchKeywords()
