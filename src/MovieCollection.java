@@ -9,28 +9,26 @@ public class MovieCollection
 {
     private ArrayList<Movie> movies;
     private Scanner scanner;
-    private String[] allActors;
-    private String[] allActorsLowercase;
+    private ArrayList<String> allActors;
 
 
-    public MovieCollection(String fileName)
-    {
+    public MovieCollection(String fileName) {
         importMovieList(fileName);
         scanner = new Scanner(System.in);
         String actorsString = "";
         String actorsStringLowercase = "";
-
-        for (int i = 0; i < movies.size(); i++) {
-            if (actorsString.indexOf(movies.get(i).getCast()) == -1 && actorsStringLowercase.indexOf(movies.get(i).getCast()) == -1) {
-                actorsString += movies.get(i).getCast();
-                actorsStringLowercase += movies.get(i).getCast().toLowerCase();
+        allActors = new ArrayList<String>();
+        for (Movie movie : movies) {
+            String castMovie = movie.getCast();
+            String[] movieActors = castMovie.split("\\|");
+            for (String actor : movieActors){
+                if (!allActors.contains(actor)){
+                    allActors.add(actor);
+                }
             }
         }
-        System.out.println(actorsString);
-        allActors = actorsString.split("\\|");
-        allActorsLowercase = actorsStringLowercase.split("\\|");
-
     }
+
 
     public ArrayList<Movie> getMovies()
     {
@@ -185,11 +183,13 @@ public class MovieCollection
         String searchTerm = scanner.nextLine();
         searchTerm = searchTerm.toLowerCase();
         ArrayList<String> actorsFound = new ArrayList<String>();
-        for (int i = 0; i < allActorsLowercase.length; i++){
-            if (allActorsLowercase[i].indexOf(searchTerm) != -1 && !actorsFound.contains(allActorsLowercase[i])){
-                actorsFound.add(allActorsLowercase[i]);
+        for (String actor : allActors){
+            if (actor.toLowerCase().contains(searchTerm) && actorsFound.indexOf(actor.toLowerCase()) == -1){
+                actorsFound.add(actor);
             }
         }
+
+
         System.out.println(actorsFound);
 
     }
