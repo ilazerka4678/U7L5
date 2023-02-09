@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Scanner;
-import java.util.Collections;
+import java.util.*;
 
 public class MovieCollection
 {
@@ -336,7 +333,39 @@ public class MovieCollection
 
     private void listHighestRated()
     {
+        ArrayList<Movie> highestRated = new ArrayList<Movie>();
+        for (int i = 0; i < 50; i++){
+            highestRated.add(movies.get(i));
+        }
+        for (int m = 0; m < movies.size(); m++){
+            for (int i = 0; i < 50; i++){
+                if (movies.get(m).getUserRating() >= highestRated.get(i).getUserRating()){
+                    highestRated.add(i, movies.get(m));
+                    i = 50;
+                }
+            }
+        }
+        for (int i = 0; i < 50; i++)
+        {
+            String title = highestRated.get(i).getTitle();
 
+            // this will print index 0 as choice 1 in the results list; better for user!
+            int choiceNum = i + 1;
+
+            System.out.println("" + choiceNum + ". " + title);
+        }
+        System.out.println("Which movie would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int choice2 = scanner.nextInt();
+        scanner.nextLine();
+
+        Movie selectedMovie = highestRated.get(choice2 - 1);
+
+        displayMovieInfo(selectedMovie);
+
+        System.out.println("\n ** Press Enter to Return to Main Menu **");
+        scanner.nextLine();
     }
 
     private void listHighestRevenue()
